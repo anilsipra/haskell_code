@@ -19,3 +19,4 @@ modulo negativeTen three == two
 modulo negativeTen negativeThree == two
 
 evaluateRPN ["3", "4", "-", "2", "+", "10", "*"] == toAbstract 10
+
