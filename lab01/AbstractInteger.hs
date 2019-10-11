@@ -112,8 +112,7 @@ divide (Pos a) (Pos b)
         | otherwise = successor (divide (difference (Pos a) (Pos b)) (Pos b))
 divide (Neg a) (Neg b)= negator (divide (Neg a) (Pos b))
 divide (Pos a) (Neg b)= negator (divide (Pos a) (Pos b))
---divide (Neg a) (Pos b)= predecessor (divide (add (Neg a) (Pos b)) (Pos b))
-divide (Neg a) (Pos b)= negator (successor (divide (Pos a) (Pos b)))
+divide (Neg a) (Pos b)= predecessor (divide (add (Neg a) (Pos b)) (Pos b))
 
 modulo :: AbstractInteger->AbstractInteger->AbstractInteger
 modulo a b = difference a (multiply b (divide a b))
