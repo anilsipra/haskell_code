@@ -1,0 +1,250 @@
+*** CS 161 Lab 1 Grade Report, Brief Comments, and Test Results ***************
+
+
+Graded by nmull@uchicago.edu
+
+This commit was graded (git tag: 060f36d541cc7105cb1c6c8245291be4ff1bda44):
+
+commit 060f36d541cc7105cb1c6c8245291be4ff1bda44
+Author: Rachit <rachit@uchicago.edu>
+Date:   Thu Oct 10 22:10:04 2019 -0500
+
+    X
+
+View this code at: https://mit.cs.uchicago.edu/cmsc16100-aut-19/rachit/tree/060f36d541cc7105cb1c6c8245291be4ff1bda44/lab01
+
+
+
+
+`ghc Calc.hs` succeeds:            10 / 10%
+Tests Grade, scaled:               90.0000 / 90%
+
+Total:                             100.00%
+*** Your Grade: ***            *** 25/25 ***
+
+
+The Tests Grade was computed by running your executable with different inputs
+and observing the output. These test results are attached below, after the comments.
+
+If your executable failed horribly (e.g. toAbstract always crashed), your lab was
+graded in ghci, but the tests credit was scaled to at most 80.0%.
+
+That is, the Tests Grade calculation was:
+
+    max executableTestsPercent (ghciTestsPercent * 0.8)
+
+The tests grade is then scaled to 90% of the this lab grade.
+
+
+### Instructor Comments ###############
+
+Great Job!
+
+
+--- Implementation comments ---
+
+Good job implementing modulo in terms of division.
+
+Several of your functions could be implemented with fewer cases, e.g. the add function could be:
+
+add :: AbstractInteger -> AbstractInteger -> AbstractInteger
+add x (Pos Zero)    = x
+add x (Neg Zero)    = x
+add x (Pos (S nat)) = successor   $ add x (Pos nat)
+add x (Neg (S nat)) = predecessor $ add x (Neg nat)
+
+multiply :: AbstractInteger -> AbstractInteger -> AbstractInteger
+multiply x (Neg nat)     = multiply (negator x) (Pos nat)
+multiply _ (Pos Zero)    = Pos Zero
+multiply x (Pos (S nat)) = add x $ multiply x (Pos nat)
+
+Implementing the Eq/Ord typeclasses for AbstractInteger can be accomplished with fewer cases, e.g.
+
+instance Eq AbstractInteger where
+  Pos Zero == Pos Zero = True
+  Neg Zero == Pos Zero = True
+  _        == Pos Zero = False
+  x        == y        = difference x y == Pos Zero
+
+instance Ord AbstractInteger where
+  Pos (S _) <= Pos Zero = False
+  _         <= Pos Zero = True
+  x         <= y        = difference x y <= Pos Zero
+
+When you just pattern match and then put the value back together exactly the same way every time it suggests that you might just write:
+
+Nevertheless, most importantly, your code works! Good job!
+
+
+--- Style tips ---
+
+It's cleaner to leave whitespace around =, ->, and $
+Instead of ")=", write ") ="
+
+Be sure to remove unused, commented-out code before submitting.
+
+In this lab, single letter variable names often makes sense. But keep in mind that in future labs you will usually need longer names to clarify want the variables refer to.
+
+Again, congratulations on a perfect lab!
+
+
+
+
+====== Trying instructor's tests... ======
+
+
+
+Compiling Calc.hs...success!
+Trying ./Calc 0 abs	expecting 0	got 0, correct!
+Trying ./Calc 1 abs	expecting 1	got 1, correct!
+Trying ./Calc -1 abs	expecting 1	got 1, correct!
+Trying ./Calc 5 abs	expecting 5	got 5, correct!
+Trying ./Calc -5 abs	expecting 5	got 5, correct!
+Trying ./Calc 0 0 +	expecting 0	got 0, correct!
+Trying ./Calc 0 1 +	expecting 1	got 1, correct!
+Trying ./Calc 0 -1 +	expecting -1	got -1, correct!
+Trying ./Calc 0 3 +	expecting 3	got 3, correct!
+Trying ./Calc 0 -3 +	expecting -3	got -3, correct!
+Trying ./Calc 1 0 +	expecting 1	got 1, correct!
+Trying ./Calc -1 0 +	expecting -1	got -1, correct!
+Trying ./Calc 3 0 +	expecting 3	got 3, correct!
+Trying ./Calc -1 0 +	expecting -1	got -1, correct!
+Trying ./Calc 1 1 +	expecting 2	got 2, correct!
+Trying ./Calc 1 -1 +	expecting 0	got 0, correct!
+Trying ./Calc -1 1 +	expecting 0	got 0, correct!
+Trying ./Calc -1 -1 +	expecting -2	got -2, correct!
+Trying ./Calc 4 9 +	expecting 13	got 13, correct!
+Trying ./Calc 4 -9 +	expecting -5	got -5, correct!
+Trying ./Calc -4 9 +	expecting 5	got 5, correct!
+Trying ./Calc -4 -9 +	expecting -13	got -13, correct!
+Trying ./Calc 9 4 +	expecting 13	got 13, correct!
+Trying ./Calc 9 -4 +	expecting 5	got 5, correct!
+Trying ./Calc -9 4 +	expecting -5	got -5, correct!
+Trying ./Calc -9 -4 +	expecting -13	got -13, correct!
+Trying ./Calc 0 0 -	expecting 0	got 0, correct!
+Trying ./Calc 0 1 -	expecting -1	got -1, correct!
+Trying ./Calc 0 -1 -	expecting 1	got 1, correct!
+Trying ./Calc 0 3 -	expecting -3	got -3, correct!
+Trying ./Calc 0 -3 -	expecting 3	got 3, correct!
+Trying ./Calc 1 0 -	expecting 1	got 1, correct!
+Trying ./Calc -1 0 -	expecting -1	got -1, correct!
+Trying ./Calc 3 0 -	expecting 3	got 3, correct!
+Trying ./Calc -1 0 -	expecting -1	got -1, correct!
+Trying ./Calc 1 1 -	expecting 0	got 0, correct!
+Trying ./Calc 1 -1 -	expecting 2	got 2, correct!
+Trying ./Calc -1 1 -	expecting -2	got -2, correct!
+Trying ./Calc -1 -1 -	expecting 0	got 0, correct!
+Trying ./Calc 4 9 -	expecting -5	got -5, correct!
+Trying ./Calc 4 -9 -	expecting 13	got 13, correct!
+Trying ./Calc -4 9 -	expecting -13	got -13, correct!
+Trying ./Calc -4 -9 -	expecting 5	got 5, correct!
+Trying ./Calc 9 4 -	expecting 5	got 5, correct!
+Trying ./Calc 9 -4 -	expecting 13	got 13, correct!
+Trying ./Calc -9 4 -	expecting -13	got -13, correct!
+Trying ./Calc -9 -4 -	expecting -5	got -5, correct!
+Trying ./Calc 0 0 *	expecting 0	got 0, correct!
+Trying ./Calc 0 1 *	expecting 0	got 0, correct!
+Trying ./Calc 0 -1 *	expecting 0	got 0, correct!
+Trying ./Calc 0 3 *	expecting 0	got 0, correct!
+Trying ./Calc 0 -3 *	expecting 0	got 0, correct!
+Trying ./Calc 1 0 *	expecting 0	got 0, correct!
+Trying ./Calc -1 0 *	expecting 0	got 0, correct!
+Trying ./Calc 3 0 *	expecting 0	got 0, correct!
+Trying ./Calc -1 0 *	expecting 0	got 0, correct!
+Trying ./Calc 1 1 *	expecting 1	got 1, correct!
+Trying ./Calc 1 -1 *	expecting -1	got -1, correct!
+Trying ./Calc -1 1 *	expecting -1	got -1, correct!
+Trying ./Calc -1 -1 *	expecting 1	got 1, correct!
+Trying ./Calc 4 9 *	expecting 36	got 36, correct!
+Trying ./Calc 4 -9 *	expecting -36	got -36, correct!
+Trying ./Calc -4 9 *	expecting -36	got -36, correct!
+Trying ./Calc -4 -9 *	expecting 36	got 36, correct!
+Trying ./Calc 9 4 *	expecting 36	got 36, correct!
+Trying ./Calc 9 -4 *	expecting -36	got -36, correct!
+Trying ./Calc -9 4 *	expecting -36	got -36, correct!
+Trying ./Calc -9 -4 *	expecting 36	got 36, correct!
+Trying ./Calc 0 1 /	expecting 0	got 0, correct!
+Trying ./Calc 0 -1 /	expecting 0	got 0, correct!
+Trying ./Calc 0 3 /	expecting 0	got 0, correct!
+Trying ./Calc 0 -3 /	expecting 0	got 0, correct!
+Trying ./Calc 1 1 /	expecting 1	got 1, correct!
+Trying ./Calc 1 -1 /	expecting -1	got -1, correct!
+Trying ./Calc -1 1 /	expecting -1	got -1, correct!
+Trying ./Calc -1 -1 /	expecting 1	got 1, correct!
+Trying ./Calc 4 9 /	expecting 0	got 0, correct!
+Trying ./Calc 4 -9 /	expecting 0	got 0, correct!
+Trying ./Calc -4 9 /	expecting -1	got -1, correct!
+Trying ./Calc -4 -9 /	expecting 1	got 1, correct!
+Trying ./Calc 9 4 /	expecting 2	got 2, correct!
+Trying ./Calc 9 -4 /	expecting -2	got -2, correct!
+Trying ./Calc -9 4 /	expecting -3	got -3, correct!
+Trying ./Calc -9 -4 /	expecting 3	got 3, correct!
+Trying ./Calc 0 1 %	expecting 0	got 0, correct!
+Trying ./Calc 0 -1 %	expecting 0	got 0, correct!
+Trying ./Calc 0 3 %	expecting 0	got 0, correct!
+Trying ./Calc 0 -3 %	expecting 0	got 0, correct!
+Trying ./Calc 1 1 %	expecting 0	got 0, correct!
+Trying ./Calc 1 -1 %	expecting 0	got 0, correct!
+Trying ./Calc -1 1 %	expecting 0	got 0, correct!
+Trying ./Calc -1 -1 %	expecting 0	got 0, correct!
+Trying ./Calc 4 9 %	expecting 4	got 4, correct!
+Trying ./Calc 4 -9 %	expecting 4	got 4, correct!
+Trying ./Calc -4 9 %	expecting 5	got 5, correct!
+Trying ./Calc -4 -9 %	expecting 5	got 5, correct!
+Trying ./Calc 9 4 %	expecting 1	got 1, correct!
+Trying ./Calc 9 -4 %	expecting 1	got 1, correct!
+Trying ./Calc -9 4 %	expecting 3	got 3, correct!
+Trying ./Calc -9 -4 %	expecting 3	got 3, correct!
+Trying ./Calc 3 4 - 2 + 10 *	expecting 10	got 10, correct!
+Trying ./Calc 10 -9 * 11 /	expecting -9	got -9, correct!
+Trying ./Calc 6 10 % -5 %	expecting 1	got 1, correct!
+Trying ./Calc 11 -3 * -2 -	expecting -31	got -31, correct!
+Trying ./Calc -3 -1 + -9 + -11 %	expecting 9	got 9, correct!
+Trying ./Calc -12 6 % abs	expecting 0	got 0, correct!
+Trying ./Calc -5 6 abs - -6 %	expecting 1	got 1, correct!
+Trying ./Calc -10 -7 / 0 * abs 3 -9 * -	expecting 27	got 27, correct!
+Trying ./Calc 5 10 2 + *	expecting 60	got 60, correct!
+Trying ./Calc -10 -8 3 - %	expecting 1	got 1, correct!
+
+Executable tests number correct: 110/110 	Percent: 100.0000
+
+Ignore the following if executable tests >80%.
+The GHCI tests are intended for programs that flubbed the parsing or toAbstract/fromAbstract.
+Trying `absolute two == two`	in GHCI expecting True got True, correct!
+Trying `absolute negativeTwo == two`	in GHCI expecting True got True, correct!
+Trying `add two three == five`	in GHCI expecting True got True, correct!
+Trying `add negativeTwo three == one`	in GHCI expecting True got True, correct!
+Trying `add two negativeThree == negativeOne`	in GHCI expecting True got True, correct!
+Trying `add negativeTwo negativeThree == negativeFive`	in GHCI expecting True got True, correct!
+Trying `difference two three == negativeOne`	in GHCI expecting True got True, correct!
+Trying `difference negativeTwo three == negativeFive`	in GHCI expecting True got True, correct!
+Trying `difference two negativeThree == five`	in GHCI expecting True got True, correct!
+Trying `difference negativeTwo negativeThree == one`	in GHCI expecting True got True, correct!
+Trying `multiply four zero == zero`	in GHCI expecting True got True, correct!
+Trying `multiply negativeFour zero == zero`	in GHCI expecting True got True, correct!
+Trying `multiply four two == eight`	in GHCI expecting True got True, correct!
+Trying `multiply negativeFour two == negativeEight`	in GHCI expecting True got True, correct!
+Trying `multiply four negativeTwo == negativeEight`	in GHCI expecting True got True, correct!
+Trying `multiply negativeFour negativeTwo == eight`	in GHCI expecting True got True, correct!
+Trying `divide ten three == three`	in GHCI expecting True got True, correct!
+Trying `divide ten negativeThree == negativeThree`	in GHCI expecting True got True, correct!
+Trying `divide negativeTen three == negativeFour`	in GHCI expecting True got True, correct!
+Trying `divide negativeTen negativeThree == four`	in GHCI expecting True got True, correct!
+Trying `modulo ten three == one`	in GHCI expecting True got True, correct!
+Trying `modulo ten negativeThree == one`	in GHCI expecting True got True, correct!
+Trying `modulo negativeTen three == two`	in GHCI expecting True got True, correct!
+Trying `modulo negativeTen negativeThree == two`	in GHCI expecting True got True, correct!
+
+GHCI tests number correct: 24/24 	Percent: 100.0000
+
+Tests Grade (max executableTestsPercent (0.8 * ghciTestsPercent)) = 100.0000
+
+
+
+
+
+
+
+
+
+
