@@ -23,9 +23,9 @@ instance (Read a) => Read (Interval a) where
   -- which we'll learn about later. Just replace the undefineds below
   -- with what you want to return and everything will work.
   readsPrec _ "Empty"        = [(Empty, "")]
-  readsPrec _ "All"          = [(undefined, "")]
-  readsPrec _ ('>':'=':next) = [(undefined, "")]
-  readsPrec _ ('<':next)     = [(undefined, "")]
+  readsPrec _ "All"          = [((Range MIN MAX), "")]
+  readsPrec _ ('>':'=':next) = [((Range (E (read next)) MAX), "")]
+  readsPrec _ ('<':next)     = [((Range MIN (E (read next))), "")]
   readsPrec _ str =
     -- Don't worry about this case. It is a bit clunky. We will learn
     -- a better option later in the course.
@@ -44,10 +44,10 @@ sanitizeInterval int@(Range start end)
 sanitizeInterval int = int
 
 intersectIntervals :: Ord a => Interval a -> Interval a -> Interval a
-intersectIntervals Empty _ = undefined
-intersectIntervals _ Empty = undefined
+intersectIntervals Empty _ = Empty
+intersectIntervals _ Empty = Empty
 intersectIntervals (Range start1 end1) (Range start2 end2) =
-  sanitizeInterval $ undefined
+  sanitizeInterval $ (Range (max start1 start2) (min end1 end2))
 
 ---- Interval Sets ----
 
@@ -67,17 +67,17 @@ allIS :: IntervalSet a
 allIS = toIS $ Range MIN MAX
 
 intersectISI :: Ord a => IntervalSet a -> Interval a -> IntervalSet a
-intersectISI = undefined
+intersectISI iset itvl = map (intersectIntervals itvl) iset
 
 -- The complement of an interval must return an interval set because
 -- the complement of a bounded interval is the disjoint union of two
 -- unbounded intervals.
 
 complementInterval :: Ord a => Interval a -> IntervalSet a
-complementInterval Empty             = undefined
-complementInterval (Range MIN end)   = undefined
-complementInterval (Range start MAX) = undefined
-complementInterval (Range start end) = undefined
+complementInterval Empty             = toIS (Range MIN MAX)
+complementInterval (Range MIN end)   = toIS (Range end MAX)
+complementInterval (Range start MAX) = toIS (Range MIN start)
+complementInterval (Range start end) = (Range MIN start):(Range end MAX):[]
 
 -- An interval minus an interval must return an interval set because
 -- the second could cut a hold in the middle of the first.
@@ -87,9 +87,9 @@ differenceIntervals
   => Interval a
   -> Interval a
   -> IntervalSet a
-differenceIntervals Empty _     = undefined
-differenceIntervals itvl Empty  = undefined
-differenceIntervals itvl1 itvl2 = undefined
+differenceIntervals Empty _     = emptyIS
+differenceIntervals itvl Empty  = toIS (itvl)
+differenceIntervals itvl1 itvl2 = intersectISI (complementInterval itvl2) itvl1 
 
 -- interval set minus an interval
 differenceISI
@@ -97,7 +97,8 @@ differenceISI
   => IntervalSet a
   -> Interval a
   -> IntervalSet a
-differenceISI = undefined
+differenceISI iset itvl = concatMap ((flip differenceIntervals) itvl) iset
+--differenceISI iset itvl = concatmap (`differenceIntervals` itvl) iset
 
 
 ---- Helpers for interval sets ----
@@ -107,28 +108,27 @@ intersection
   => IntervalSet a
   -> IntervalSet a
   -> IntervalSet a
-intersection = undefined
+intersection iset1 iset2 = concatMap (intersectISI iset1) iset2  
 
 union :: Ord a => IntervalSet a -> IntervalSet a -> IntervalSet a
-union = undefined
+union = (++) 
 
 difference :: Ord a => IntervalSet a -> IntervalSet a -> IntervalSet a
-difference = undefined -- Use foldr.
-
+difference iset1 iset2 = foldr (flip differenceISI) iset1 iset2-- Use foldr.
 
 ---- Queries on interval sets ----
 
 intersectAll :: Ord a => [IntervalSet a] -> IntervalSet a
-intersectAll = undefined -- Use foldr.
+intersectAll isetset = foldr intersection (toIS(Range MIN MAX)) isetset -- Use foldr.
 
 unionAll :: Ord a => [IntervalSet a] -> IntervalSet a
-unionAll = undefined
+unionAll = concat
 
 -- Subtract from the first interval set all the remaining interval
 -- sets.
 differenceAll :: Ord a => [IntervalSet a] -> IntervalSet a
 differenceAll []           = emptyIS
-differenceAll (first:rest) = undefined -- Use foldr.
+differenceAll (first:rest) = foldr (flip difference) first rest -- Use foldr.
 
 
 ---- Boolean Helpers ----
@@ -141,10 +141,10 @@ isEmpty = null . filter (/= Empty)
 
 -- two interval sets are disjoint if they do not overlap
 areDisjoint :: Ord a => IntervalSet a -> IntervalSet a -> Bool
-areDisjoint = undefined
+areDisjoint iset1 iset2= isEmpty (intersection iset1 iset2)
 
 isSubset :: Ord a => IntervalSet a -> IntervalSet a -> Bool
-isSubset = undefined
+isSubset iset1 iset2 = isEmpty (difference iset1 iset2) 
 
 areEqual :: Ord a => IntervalSet a -> IntervalSet a -> Bool
 areEqual is1 is2 =
@@ -155,8 +155,9 @@ areEqual is1 is2 =
 
 areAllDisjoint :: Ord a => [IntervalSet a] -> Bool
 areAllDisjoint [] = True
-areAllDisjoint (first:rest) = undefined -- Hint : this function is recursive.
+areAllDisjoint (first:rest) = and (map (isEmpty . (intersection first)) rest)  && areAllDisjoint rest  -- Hint : this function is recursive.
 
 areAllEqual :: Ord a => [IntervalSet a] -> Bool
 areAllEqual [] = True
-areAllEqual (first:rest) = undefined
+areAllEqual (first:rest) = and (map (areEqual first) rest) && areAllEqual rest
+

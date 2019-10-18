@@ -45,19 +45,23 @@ processLine :: String -> String
 processLine line =
   -- Example: words "abc def ghi" => ["abc", "def", "ghi"]
   case words line of
-    "intersection":rest -> undefined -- hint: These can be done in one line
-    "union":rest        -> undefined -- further hint: think map and ($) and (.)
-    "difference":rest   -> undefined
-    "disjoint":rest     -> undefined
-    "equal":rest        -> undefined
+    "intersection":rest -> showIS . normalizeIS . intersectAll $ map readIS rest -- hint: These can be done in one line
+    "union":rest        -> showIS . normalizeIS . unionAll $ map readIS rest-- further hint: think map and ($) and (.)
+    "difference":rest   -> showIS . normalizeIS . differenceAll $ map readIS rest
+    "disjoint":rest     -> show  . areAllDisjoint $ map readIS rest
+    "equal":rest        -> show  . areAllEqual $ map readIS rest
     _                   -> "Invalid input"
+
+
+
+
 
 main :: IO ()
 main = do
-  -- <--- Write code here to get a line from the input
-  case undefined of -- Examine the line
-    'q':_ -> return () -- "q" or "quit" to quit
+  input <- getLine
+  case input of 
+    'q':_ -> return ()
     _     -> do
-      -- <--- Process and output the line here
-      hFlush stdout -- "Flush" the output buffer (otherwise Windows may not show output)
-      main -- Repeat
+      putStrLn . processLine $ input
+      hFlush stdout
+      main
