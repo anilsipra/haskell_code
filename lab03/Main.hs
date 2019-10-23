@@ -1,9 +1,10 @@
 import System.IO
+import Lab3
 
 main :: IO ()
 main = do
      putStr "> "
      hFlush stdout
      line <- getLine
-     putStrLn line -- CHANGE ME
+     putStrLn $ show . eval . parse . tokenize $ line -- CHANGE ME
      main
