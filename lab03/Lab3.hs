@@ -50,11 +50,11 @@ tokenize []         = []
 
 
 parse :: [Token] -> ArithExp
-parse [NumTok num] = convertToNum num
-parse [ParTok list] = parse list
+parse [NumTok num]      = convertToNum num
+parse [ParTok list]     = parse list
 parse (a:MulTok:b:rest) = parse (NumTok (show (eval (Mult (parse [a]) (parse [b])))) : rest)
 parse (a:DivTok:b:rest) = parse (NumTok (show (eval (Div  (parse [a]) (parse [b])))) : rest)
-parse (a:AddTok:rest)  = Plus (parse [a]) (parse rest)
+parse (a:AddTok:rest)   = Plus (parse [a]) (parse rest)
 
 
 data Fraction = Fraction Int Int
