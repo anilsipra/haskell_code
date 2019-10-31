@@ -6,5 +6,5 @@ main = do
      putStr "> "
      hFlush stdout
      line <- getLine
-     putStrLn $ show . eval . parse . tokenize $ line -- CHANGE ME
+     putStrLn $ show . reduce . eval . parse . tokenize $ line 
      main
