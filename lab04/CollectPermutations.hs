@@ -27,3 +27,13 @@ prog2 = cwords >>> unionsWith (++) >>> map2 (sort . nub) >>> filter2 ((>1) . len
         
 main :: IO ()        
 main = interact $ prog2
+
+
+
+seg fstbr line dict = if (line == "") then Just ""
+                 else if (fstbr < 1) then Nothing
+                 else if ((lookup1 (take1 fstbr line) dict)==Just True)
+                    then case (seg (length (drop1 fstbr line)) (drop1 fstbr line) dict) of
+                        Nothing -> seg (fstbr-1) line dict
+                        Just x -> Just $ (take1 fstbr line) ++ " " ++ x
+                 else seg (fstbr-1) line dict
