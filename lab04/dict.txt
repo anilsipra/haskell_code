@@ -1159,7 +1159,6 @@ bessemer
 bessie
 best
 betelgeuse
-beth
 bethany
 bethe
 bethesda
@@ -2474,7 +2473,6 @@ ddt
 de
 dea
 dec
-dh
 dhs
 di
 dj
@@ -9236,7 +9234,6 @@ sputnik
 sq
 squanto
 squibb
-sr
 srinagar
 srivijaya
 st
@@ -21239,7 +21236,6 @@ e'en
 e'er
 ebay
 emusic
-ea
 each
 eager
 eagerness
@@ -26237,7 +26233,6 @@ hasten
 hastily
 hastiness
 hasty
-hat
 hatband
 hatbox
 hatch
@@ -30809,7 +30804,6 @@ lxvi
 lxvii
 lyceum
 lychgate
-lye
 lying
 lymph
 lymphatic
@@ -44944,7 +44938,6 @@ tastily
 tastiness
 tasting
 tasty
-tat
 tatami
 tater
 tatted
@@ -49464,3 +49457,7 @@ zymurgy
 a
 i
 is
+rightly
+things
+similarly
+has

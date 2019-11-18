@@ -35,11 +35,7 @@ main = do
     let list = lines contents
     let list2 = zip list (repeat True)
     let dict = fromList list2
-<<<<<<< HEAD
-    input <- getLine
-=======
     input <- getContents
->>>>>>> 41fd406408a12be32946eaba0f69f627d77bf89c
     let output = (seg (length input) input dict)
     case output of
         Just x -> putStrLn x
