@@ -1159,7 +1159,6 @@ bessemer
 bessie
 best
 betelgeuse
-beth
 bethany
 bethe
 bethesda
@@ -26234,7 +26233,6 @@ hasten
 hastily
 hastiness
 hasty
-hat
 hatband
 hatbox
 hatch
@@ -44940,7 +44938,6 @@ tastily
 tastiness
 tasting
 tasty
-tat
 tatami
 tater
 tatted
