@@ -68,15 +68,107 @@ data MathExp
     deriving (Eq, Show)
 
 
-parseMathTLE :: ReadP TopLevelExp
-parseMathTLE =
-    pfail
 
+
+parseNumber :: ReadP MathExp
+parseNumber = do
+    skipSpaces
+    Number <$> (read <$> munch1 (isDigit)) 
+
+parseVar :: ReadP MathExp
+parseVar = do
+    skipSpaces
+    x <- satisfy (isLower)
+    xs  <- munch (isAlphaNum)
+    return $ Var (x:xs)
+
+parsePlus :: ReadP (MathExp -> MathExp -> MathExp)
+parsePlus = do
+    skipSpaces
+    char '+'
+    return Plus
+
+parseMult :: ReadP (MathExp -> MathExp -> MathExp)
+parseMult = do
+    skipSpaces
+    char '*'
+    return Mult
+
+parseDiv :: ReadP (MathExp -> MathExp -> MathExp)
+parseDiv = do
+    skipSpaces
+    char '/'
+    return Div
+
+parseMinus :: ReadP (MathExp -> MathExp -> MathExp)
+parseMinus = do
+    skipSpaces
+    char '-'
+    return Minus
+
+parseNeg :: ReadP (MathExp -> MathExp)
+parseNeg = do
+    skipSpaces
+    char '-'
+    return Neg 
+
+parsePow :: ReadP (MathExp -> MathExp -> MathExp)
+parsePow = do
+    skipSpaces
+    char '^'
+    return Pow
+
+
+parseMathTLE :: ReadP TopLevelExp
+parseMathTLE = MathTLE <$> (mathparsetest)  
+
+--mathparsetest = (chainl1 (chainl1 (chainr1 choice0 choice3) choice2) choice1)
+
+chainl2 :: ReadP a -> ReadP (a -> a -> a) -> ReadP a
+chainl2 p op = p >>= rest
+  where rest x = do f <- op
+                    y <- p
+                    rest (f x y)
+                <++ return x
+
+chainr2 :: ReadP a -> ReadP (a -> a -> a) -> ReadP a
+chainr2 p op = scan
+  where scan   = p >>= rest
+        rest x = do f <- op
+                    y <- scan
+                    return (f x y)
+                 <++ return x
+
+parseParens = parens mathparsetest
+
+parseNVP = (parseNeg <*> (parseNumber <++ parseVar <++ parseParens)) <++ (parseNumber <++ parseVar <++ parseParens)
+
+mathparsetest = chainl2 (chainl2 ((parseNeg <*> chainr2 parseNVP parsePow) <++ (chainr2 parseNVP parsePow)) (parseMult <++ parseDiv)) (parsePlus <++ parseMinus)
+
+
+                
+
+    --pfail 
+ 
 
 parseLetTLE :: ReadP TopLevelExp
-parseLetTLE =
-    pfail
+parseLetTLE = do
+    stringspace "let"
+    x <- (parens (sepwithspaces parseString (char ','))) <++ sepwithspaces parseString (char ',')
+    stringspace "="
+    mexp <- (parens (sepwithspaces mathparsetest (char ','))) <++ sepwithspaces mathparsetest (char ',')
+    stringspace "in"
+    vexp <- mathparsetest  
+    return $ LetTLE x  mexp vexp
 
+parseString :: ReadP Name
+parseString = do
+    skipSpaces
+    x <- satisfy (isLower)
+    xs  <- munch (isAlphaNum)
+    return (x:xs)
+
+stringspace str = skipSpaces >> string (str)    
 
 parseTLE :: ReadP TopLevelExp
 parseTLE = do
@@ -84,6 +176,19 @@ parseTLE = do
     skipSpaces
     return tle
 
+sepwithspaces p1 s1 = sepBy1 p1 (skipSpaces >> s1)
+parens = between (skipSpaces >> char '(') (skipSpaces >> char ')') 
+neg = skipSpaces >> parseNeg >>= ( <$> choice0) 
+choice0 = neg <++ choicem [parseNumber,parseVar, (parens mathparsetest)]
+choice1 = choicem [parsePlus,parseMinus]
+choice2 = choicem [parseDiv,parseMult]
+choice3 = parsePow 
+
+choicem :: [ReadP a] -> ReadP a
+-- ^ Combines all parsers in the specified list.
+choicem []     = pfail
+choicem [p]    = p
+choicem (p:ps) = p <++ choice ps
 
 -- Run the parser on a given string.
 --
@@ -101,3 +206,7 @@ parse str =
         (completeParses, incompleteParses) =
             partition (\(_, remaining) -> remaining == "") parses
         leastRemaining = minimumBy (comparing length) . map snd $ incompleteParses
+
+
+
+
