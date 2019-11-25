@@ -1,0 +1,16 @@
+mySumC [1..4]
+==> mySumC (enumFromTo 1 4)
+==> mySumC.iter 0 (enumFromTo 1 4)
+==> mySumC.iter 0 (1 : enumFromTo 2 4)
+==> mySumC.iter (0+1) (enumFromTo 2 4)
+==> mySumC.iter 1 (enumFromTo 2 4)
+==> mySumC.iter 1 (2 : enumFromTo 3 4)
+==> mySumC.iter (1+2) (enumFromTo 3 4)
+==> mySumC.iter 3 (enumFromTo 3 4)
+==> mySumC.iter 3 (3 : enumFromTo 4 4)
+==> mySumC.iter (3+3) (enumFromTo 4 4)
+==> mySumC.iter 6 (enumFromTo 4 4)
+==> mySumC.iter 6 (4:[])
+==> muSumC.iter (6+4) ([])
+==> mySumC.iter 10 []
+==> 10
