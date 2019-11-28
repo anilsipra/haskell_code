@@ -53,7 +53,7 @@ opchoice = ( parseGreater <++ parseLesser <++ parseEqual <++ parseGorE <++ parse
 pfunApp :: ReadP MathExp
 pfunApp = do
     open <- stringspace "(\\"
-    x <- skipSpaces >> parseString
+    x <- parseString
     stringspace "->"
     mexp <- parseMathE
     close <- stringspace ")"
@@ -215,10 +215,10 @@ parens :: ReadP a -> ReadP a
 parens = between (charspace '(') (charspace ')') 
 
 neg :: ReadP MathExp
-neg = skipSpaces >> parseNeg >>= ( <$> choice0)
+neg = parseNeg >>= ( <$> choice0)
 
 notf :: ReadP MathExp
-notf = skipSpaces >> parseNotkey >>= ( <$> parseRel) where 
+notf = parseNotkey >>= ( <$> parseRel) where 
     parseRel = chainr2 parseMathE2 opchoice
 
 choice0 :: ReadP MathExp
