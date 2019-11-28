@@ -38,3 +38,10 @@ let (a,b,c) = (3,4,6-2) in a*a + b*b - c*c
 let (a,b,hypot) = (3,4,5) in a^2 + b^2 - hypot^2
 let validVarName = 2^5 in validVarName * (validVarName)
 let  ( r2d2 , c3po )  =  ( ( 2^2 ) , ( 3 + (0) ) )  in   r2d2  + c3po
+5 + let x = 6 in x
+let x = 2 in let y = x + x in 2 + y
+let x = (let y = 2 in y+y) in x
+let x = (let y = 2 in y+y) in y
+1 + (2==3)
+let (x,y) = (1==1,1==2) in if x then 2 else 3
+1 + (2==3)

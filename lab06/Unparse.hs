@@ -9,15 +9,15 @@ module Unparse (
 import           Data.List
 import           Lab6
 
-unparse :: TopLevelExp -> String
-unparse (MathTLE mathExp)           = unparseMathExp mathExp
-unparse (LetTLE names assigns main) =
+unparse :: MathExp -> String
+unparse (LetE names assigns main) =
     "let " ++ commaList names ++ " = " ++
     (commaList . map unparseMathExp $ assigns) ++ " in " ++
     unparseMathExp main
     where
         commaList [str] =  str
         commaList strs  = "(" ++ intercalate ", " strs ++ ")"
+unparse ( mathExp)           = unparseMathExp mathExp
 
 unparseMathExp :: MathExp -> String
 unparseMathExp (Number n)     = show n

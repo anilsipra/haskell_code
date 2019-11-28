@@ -38,7 +38,8 @@ tryParseEval expStr =
 showParseEval :: String -> String
 showParseEval expStr =
     case tryParseEval expStr of
-      Right result  -> show result
+      Right (Ans result)  -> show ( result)
+      Right (B result) -> show (result)
       Left errorMsg -> errorMsg
 
 

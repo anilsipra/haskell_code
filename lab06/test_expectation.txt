@@ -38,3 +38,7 @@
 0
 1024
 7
+11
+6
+4
+error : could not find y

@@ -1,6 +1,11 @@
 -- Write your parser in this file.
 
-module Lab6  where
+module Lab6 (
+  Name,
+  Number,
+  MathExp(..),
+  parse
+) where
 
 import           Control.Applicative          hiding (many)
 import           Control.Monad
@@ -11,6 +16,39 @@ import           Text.ParserCombinators.ReadP
 
 type Name   = String  -- Variable names are strings.
 type Number = Int     -- The kind of number in our language.
+
+
+-- A top-level expression is either:
+--
+-- 1) A bare mathematical expression:
+--
+-- 4 + (2*5)
+--
+-- 2) A let-binding followed by an expression to evaluate:
+--
+-- let x = 5 in x + 4
+--
+-- let (x1, y1, x2, y2) = (5,5,10,10) in (y2-y1)*(y2-y1) + (x2-x1)*(x2-x1)
+--
+-- You can assume that the tuples on either side of the = sign are
+-- always the same length--if not it will be treated as an eval error.
+
+
+-- A math expression is a number, a variable,
+-- a negation of a math expression, or any of
+-- the four major operations plus power on a
+-- pair of math expressions.
+--
+-- In the actual parser:
+--   1. Precedence should be standard order of operations.
+--   2. Negation should only precede a number, a variable, or
+--      a parenthetical expression.
+--   3. A variable starts with a lowercase letter and after
+--      the first letter is any alphanumeric character a-z A-Z 0-9.
+--
+-- Your parser does _not_ need an explicit tokenization step like Lab 3.
+-- In the functional parsing paradigm, tokenization+parsing occur
+-- simultaneously.
 
 data MathExp
     = Number Number
@@ -30,14 +68,13 @@ data MathExp
     | Not MathExp
     | LetE   [Name] [MathExp] MathExp
     | IF    MathExp MathExp  MathExp
-    | Fun Name MathExp MathExp
     deriving (Eq, Show)
 
 
 
 
 
-parseIF :: ReadP MathExp
+
 parseIF = do
     stringspace "if"
     cond     <- (parens (chainl1  parseMathE opchoice)) <++ (chainl1  parseMathE opchoice)
@@ -47,54 +84,47 @@ parseIF = do
     falseexp <- parseMathE 
     return $ IF cond trueexp falseexp
 
-opchoice :: ReadP (MathExp -> MathExp -> MathExp)
+
 opchoice = ( parseGreater <++ parseLesser <++ parseEqual <++ parseGorE <++ parseLorE <++ parseNotEqual)
-
-pfunApp :: ReadP MathExp
-pfunApp = do
-    open <- stringspace "(\\"
-    x <- skipSpaces >> parseString
-    stringspace "->"
-    mexp <- parseMathE
-    close <- stringspace ")"
-    arg <- parseMathE
-    return $ Fun x mexp arg
+    
 
 
-
-parseGreater :: ReadP (MathExp -> MathExp -> MathExp)
 parseGreater = do
-    charspace '>'
+    skipSpaces
+    char '>'
     return Greater
 
-parseLesser :: ReadP (MathExp -> MathExp -> MathExp)
+
 parseLesser = do
-    charspace '<'
+    skipSpaces
+    char '<'
     return Lesser
 
-parseEqual :: ReadP (MathExp -> MathExp -> MathExp)
+
 parseEqual = do
-    stringspace "=="
+    skipSpaces
+    string "=="
     return Equalto
 
-parseGorE :: ReadP (MathExp -> MathExp -> MathExp)
+
 parseGorE = do
-    stringspace ">="
+    skipSpaces
+    string ">="
     return GorE
 
-parseLorE :: ReadP (MathExp -> MathExp -> MathExp)
 parseLorE = do
-    stringspace "<="
+    skipSpaces
+    string "<="
     return Equalto
 
-parseNotEqual :: ReadP (MathExp -> MathExp -> MathExp)
 parseNotEqual = do
-    stringspace "/="
+    skipSpaces
+    string "/="
     return NotE
 
-parseNotkey :: ReadP (MathExp -> MathExp)
 parseNotkey = do
-    stringspace "not"
+    skipSpaces
+    string "not"
     return Not
     
     
@@ -112,43 +142,43 @@ parseVar = do
 
 parsePlus :: ReadP (MathExp -> MathExp -> MathExp)
 parsePlus = do
-    charspace '+'
+    skipSpaces
+    char '+'
     return Plus
 
 parseMult :: ReadP (MathExp -> MathExp -> MathExp)
 parseMult = do
-    charspace '*'
+    skipSpaces
+    char '*'
     return Mult
 
 parseDiv :: ReadP (MathExp -> MathExp -> MathExp)
 parseDiv = do
-    charspace '/'
+    skipSpaces
+    char '/'
     return Div
 
 parseMinus :: ReadP (MathExp -> MathExp -> MathExp)
 parseMinus = do
-    charspace '-'
+    skipSpaces
+    char '-'
     return Minus
 
 parseNeg :: ReadP (MathExp -> MathExp)
 parseNeg = do
-    charspace '-'
+    skipSpaces
+    char '-'
     return Neg 
 
 parsePow :: ReadP (MathExp -> MathExp -> MathExp)
 parsePow = do
-    charspace '^'
+    skipSpaces
+    char '^'
     return Pow
 
 
-
-
-parseMathE2 :: ReadP MathExp
-parseMathE2 = parseLetE <++ parseIF <++ mathparsetest 
-
-
 parseMathE :: ReadP MathExp
-parseMathE = notf <++ (chainr2 parseMathE2 opchoice)
+parseMathE = parseLetE <++ parseIF <++ mathparsetest  
 
 
 chainl2 :: ReadP a -> ReadP (a -> a -> a) -> ReadP a
@@ -166,17 +196,16 @@ chainr2 p op = scan
                     return (f x y)
                  <++ return x
 
-parseParens :: ReadP MathExp                 
 parseParens = parens parseMathE
 
-parseNVP :: ReadP MathExp
-parseNVP = (parseNeg <*> (parseNumber <++ parseVar <++ parseParens))
-             <++ (parseNumber <++ parseParens <++ parseLetE <++ parseIF  <++ parseVar )
+parseNVP = (parseNeg <*> (parseNumber <++ parseVar <++ parseParens)) <++ (parseNumber <++ parseParens <++ parseLetE  <++ parseVar )
 
-mathparsetest :: ReadP MathExp
-mathparsetest = chainl2 (chainl2 ((parseNeg <*> chainr2 parseNVP parsePow) 
-                <++ (chainr2 parseNVP parsePow))
-                 (parseMult <++ parseDiv)) (parsePlus <++ parseMinus)
+mathparsetest = chainl2 (chainl2 ((parseNeg <*> chainr2 parseNVP parsePow) <++ (chainr2 parseNVP parsePow)) (parseMult <++ parseDiv)) (parsePlus <++ parseMinus)
+
+
+                
+
+    --pfail 
  
 
 parseLetE :: ReadP MathExp
@@ -196,11 +225,7 @@ parseString = do
     xs  <- munch (isAlphaNum)
     return (x:xs)
 
-stringspace :: String -> ReadP String
-stringspace str = skipSpaces >> string (str)  
-
-charspace :: Char -> ReadP Char
-charspace ch = skipSpaces >> char (ch)
+stringspace str = skipSpaces >> string (str)    
 
 parseTLE :: ReadP MathExp
 parseTLE = do
@@ -208,37 +233,24 @@ parseTLE = do
     skipSpaces
     return tle
 
-sepwithspaces :: ReadP a -> ReadP sep -> ReadP [a]
 sepwithspaces p1 s1 = sepBy1 p1 (skipSpaces >> s1)
-
-parens :: ReadP a -> ReadP a
-parens = between (charspace '(') (charspace ')') 
-
-neg :: ReadP MathExp
-neg = skipSpaces >> parseNeg >>= ( <$> choice0)
-
-notf :: ReadP MathExp
-notf = skipSpaces >> parseNotkey >>= ( <$> parseRel) where 
-    parseRel = chainr2 parseMathE2 opchoice
-
-choice0 :: ReadP MathExp
-choice0 = parseLetE <++ parseIF <++ neg <++ choicem [parseNumber,parseVar, (parens mathparsetest)]
-
-choice1 :: ReadP (MathExp -> MathExp -> MathExp)
+parens = between (skipSpaces >> char '(') (skipSpaces >> char ')') 
+neg = skipSpaces >> parseNeg >>= ( <$> choice0) 
+choice0 = neg <++ choicem [parseNumber,parseVar, (parens mathparsetest)]
 choice1 = choicem [parsePlus,parseMinus]
-
-choice2 :: ReadP (MathExp -> MathExp -> MathExp)
 choice2 = choicem [parseDiv,parseMult]
-
-choice3 :: ReadP (MathExp -> MathExp -> MathExp)
 choice3 = parsePow 
 
 choicem :: [ReadP a] -> ReadP a
+-- ^ Combines all parsers in the specified list.
 choicem []     = pfail
 choicem [p]    = p
 choicem (p:ps) = p <++ choice ps
 
---dont change below this 
+-- Run the parser on a given string.
+--
+-- You should not modify this function. Grading may
+-- look for the specific messages below.
 parse :: String -> Either String MathExp
 parse str =
     case (completeParses, incompleteParses) of
