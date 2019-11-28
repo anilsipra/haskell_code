@@ -1,0 +1,3 @@
+The gievn formula is similar to the Prelude function 'either'. 
+
+either :: (a -> c) -> (b -> c) -> Either a b -> c
