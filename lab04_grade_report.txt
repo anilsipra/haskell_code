@@ -1,0 +1,351 @@
+*** CS 161 Lab 4 Grade Report, Brief Comments, and Test Results ***************
+
+
+Graded by j2zhao@uchicago.edu
+
+This commit was graded (git tag: efe3e464beb290de7fcda2287683a45eb40a19ae):
+
+commit efe3e464beb290de7fcda2287683a45eb40a19ae
+Author: Jin Jin Zhao <j2zhao@cs.uchicago.edu>
+Date:   Wed Nov 27 18:03:19 2019 -0600
+
+    Delete lab04_grade_report.txt
+
+View this code at: https://mit.cs.uchicago.edu/cmsc16100-aut-19/rachit/tree/efe3e464beb290de7fcda2287683a45eb40a19ae/lab04
+
+
+
+
+`ghc WordCount.hs` succeeds:                 5 /  5%
+`ghc CollectPermutations.hs` succeeds:       5 /  5%
+Clean code:                                  9 / 10%
+Words counted correctly:                 30.00 / 30%
+WordCount lowercase:                         5 /  5%
+WordCount output sorted:                     5 /  5%
+Correct permutation groups:              20.00 / 20%
+Only perms that occur at least twice:        5 /  5%
+CollectPerms no duplicate words:             5 /  5%
+CollectPerms lowercase:                      5 /  5%
+CollectPerms output sorted:                5.0 /  5%
+Extra credit segmenter:                      5 / 25%
+
+Total:                             104.00%
+*** Your Grade: ***            *** 26/25 ***
+
+
+
+### Instructor Comments ###############
+
+
+Great Job!
+
+
+--- Style tips ---
+
+You are missing a type declaration on filter1, filter2, map1, map2, and take1.
+
+It's cleaner to leave whitespace around ==
+Instead of "str=="", write "str == ""
+
+
+Again, congratulations on a perfect lab!
+
+
+
+
+====== Trying instructor's tests... ======
+
+
+
+-- Compiling WordCount.hs...
+Loaded package environment from /Users/jinjinzhao/.ghc/x86_64-darwin-8.6.5/environments/default
+[1 of 1] Compiling Main             ( WordCount.hs, WordCount.o )
+Linking WordCount ...
+
+-- Compiling WordCount.hs...success!
+
+
+-- Compiling CollectPermutations.hs...
+Loaded package environment from /Users/jinjinzhao/.ghc/x86_64-darwin-8.6.5/environments/default
+[1 of 1] Compiling Main             ( CollectPermutations.hs, CollectPermutations.o )
+Linking CollectPermutations ...
+
+-- Compiling CollectPermutations.hs...success!
+
+
+-- Compiling WordSegmenter.hs...
+Loaded package environment from /Users/jinjinzhao/.ghc/x86_64-darwin-8.6.5/environments/default
+[1 of 1] Compiling WordSegmenter    ( WordSegmenter.hs, WordSegmenter.o )
+Linking WordSegmenter ...
+
+-- Compiling WordSegmenter.hs...success!
+
+-- ### Testing WordCount.hs ######
+
+-- Input:
+
+A wise old owl lived in an oak
+The more he saw the less he spoke
+The less he spoke the more he heard.
+Why can't we all be like that wise old bird?
+
+
+-- Output:
+
+a 1
+all 1
+an 1
+be 1
+bird 1
+can't 1
+he 4
+heard 1
+in 1
+less 2
+like 1
+lived 1
+more 2
+oak 1
+old 2
+owl 1
+saw 1
+spoke 2
+that 1
+the 4
+we 1
+why 1
+wise 2
+
+-- Expected output:
+
+a 1
+all 1
+an 1
+be 1
+bird 1
+can't 1
+he 4
+heard 1
+in 1
+less 2
+like 1
+lived 1
+more 2
+oak 1
+old 2
+owl 1
+saw 1
+spoke 2
+that 1
+the 4
+we 1
+why 1
+wise 2
+
+
+-- Incorrectly counted words:  None.
+-- Extra words:                None.
+-- Words lowercase?            Yes.
+-- Output sorted?              Yes.
+
+-- Input:
+
+Anything'''that-is-not45a1word##character-   is'inbetwe-en@`a$()wo.rd
+
+-- Output:
+
+a 2
+anything'''that-is-not 1
+character- 1
+is'inbetwe-en 1
+rd 1
+wo 1
+word 1
+
+-- Expected output:
+
+a 2
+anything'''that-is-not 1
+character- 1
+is'inbetwe-en 1
+rd 1
+wo 1
+word 1
+
+
+-- Incorrectly counted words:  None.
+-- Extra words:                None.
+-- Words lowercase?            Yes.
+-- Output sorted?              Yes.
+
+
+-- ### Testing CollectPermutations.hs ######
+
+-- Input:
+
+On the Outer Pyre steps the three purest usurpers swore to their vile
+pursuers they were no prey. The route was worse from the original form they
+expected there as the live volcano nearby often erupts.
+
+
+-- Output:
+
+erupts, purest
+form, from
+live, vile
+no, on
+outer, route
+prey, pyre
+pursuers, usurpers
+swore, worse
+there, three
+
+-- Expected output:
+
+erupts, purest
+form, from
+live, vile
+no, on
+outer, route
+prey, pyre
+pursuers, usurpers
+swore, worse
+there, three
+
+
+-- Missing permutation groups:                 None.
+-- Extra permutation groups:                   None.
+-- Only permutations that occur in >=2 forms?  Yes.
+-- No duplicate words?                         Yes.
+-- Words lowercase?                            Yes.
+-- Lines sorted?                               Yes.
+-- Each group sorted?                          Yes.
+
+-- Input:
+
+Now owl, your nest on the heights, the earth silent, the last star on the
+fringe of the horizon, what hears your ear? The desire of your beak (and
+heart) are rats, of course. You think eating rats is the highest art. So
+you reside there, over me, and listen. I should be asleep, but my own ears
+are covered by headphones. Finger on tablet, I do battle! Don't eat me,
+I'm not a rat. But there are worse evils. Because even if you ate me, it'd
+be okay--I have three lives left. Wait, no, I just won! Nevermind. Please
+don't eat me.
+
+
+-- Output:
+
+are, ear
+art, rat
+asleep, please
+ate, eat
+battle, tablet
+desire, reside
+earth, heart
+evils, lives
+finger, fringe
+heights, highest
+listen, silent
+no, on
+now, own, won
+rats, star
+there, three
+
+-- Expected output:
+
+are, ear
+art, rat
+asleep, please
+ate, eat
+battle, tablet
+desire, reside
+earth, heart
+evils, lives
+finger, fringe
+heights, highest
+listen, silent
+no, on
+now, own, won
+rats, star
+there, three
+
+
+-- Missing permutation groups:                 None.
+-- Extra permutation groups:                   None.
+-- Only permutations that occur in >=2 forms?  Yes.
+-- No duplicate words?                         Yes.
+-- Words lowercase?                            Yes.
+-- Lines sorted?                               Yes.
+-- Each group sorted?                          Yes.
+
+-- Input:
+
+It was recommended that you not use the permutations function. Here's why: quick
+anatomy quiz, how do you say it: hydropneumopericardium or pneumohydropericardium?
+
+
+-- Output:
+
+hydropneumopericardium, pneumohydropericardium
+
+-- Expected output:
+
+hydropneumopericardium, pneumohydropericardium
+
+
+-- Missing permutation groups:                 None.
+-- Extra permutation groups:                   None.
+-- Only permutations that occur in >=2 forms?  Yes.
+-- No duplicate words?                         Yes.
+-- Words lowercase?                            Yes.
+-- Lines sorted?                               Yes.
+-- Each group sorted?                          Yes.
+
+
+-- ### Testing WordSegmenter.hs ######
+
+$ echo itisappropriatetostartthestudyofmathematicallogicbyinquiringwhatmathematicallogicis | ./WordSegmenter
+You did something is wrong
+
+
+-- Expected:
+
+it is appropriate to start the study of mathematical logic by inquiring what mathematical logic is
+
+-- Jaccard similarity of actual to expected word set: 0.058823529411764705  (1.0 = perfect)
+
+
+
+
+$ echo everyartandeveryinquiryandsimilarlyeveryactionandpursuitisthoughttoaimatsomegoodandforthisreasonthegoodhasrightlybeendeclaredtobethatatwhichallthingsaim | ./WordSegmenter
+CRASH OR INFINITE LOOP OR TOO SLOW!!!
+
+
+-- Expected:
+
+every art and every inquiry and similarly every action and pursuit is thought to aim at some good and for this reason the good has rightly been declared to be that at which all things aim
+
+-- Jaccard similarity of actual to expected word set: 0.0  (1.0 = perfect)
+
+
+
+
+
+-- Mean Jaccard similarity: 0.029411764705882353  (1.0 = perfect)
+
+-- ------------- Summary ------------------------
+-- 
+-- WordCount correctness:  30/30  (unique words counted correctly / (unique words + extra words))
+-- WordCount lowercase:    Yes.
+-- WordCount sorted:       Yes.
+-- WordCount penalties:    None.
+-- 
+-- CollectPermutations correctness:                25/25  (groups found correctly / (correct groups + extra groups))
+-- CollectPermutations no singleton permutations:  Yes.
+-- CollectPermutations no duplicate words:         Yes.
+-- CollectPermutations lowercase:                  Yes.
+-- CollectPermutations lines sorted:               Yes.
+-- CollectPermutations each group sorted:          Yes.
+-- CollectPermutations penalties:                  None.
+-- 
+
