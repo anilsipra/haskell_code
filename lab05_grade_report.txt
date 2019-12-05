@@ -1,0 +1,188 @@
+
+Install the spreadsheet gem version ~>1.1.1 for using spreadsheet functions.
+*** CS 161 Lab 5 Grade Report, Brief Comments, and Test Results ***************
+
+
+Graded by j2zhao@uchicago.edu
+
+This commit was graded (git tag: f24100c2d3000371458c2e28acaf89792f7d4145):
+
+commit f24100c2d3000371458c2e28acaf89792f7d4145
+Author: Nathan Mull <nmull@uchicago.edu>
+Date:   Mon Dec 2 15:08:39 2019 -0600
+
+    Starter code for Lab 7
+
+View this code at: https://mit.cs.uchicago.edu/cmsc16100-aut-19/rachit/tree/f24100c2d3000371458c2e28acaf89792f7d4145/lab05
+
+
+
+
+`ghc Lab5.hs` succeeds:                     10 / 10%
+Code cleanliness:                           10 / 10%
+newStdGen only used once:                   10 / 10%
+Code properly monadic:                      10 / 10%
+rollTwoDice N outputs N results:            10 / 10%
+rollTwoDice N outputs one result per line:   5 /  5%
+rollTwoDice N is properly random:           15 / 15%
+shuffle N outputs N results:                10 / 10%
+shuffle N outputs one result per line:       5 /  5%
+shuffle N is properly random:               15 / 15%
+Extra credit approx pi:                      8 /  8%
+
+Total:                             108.00%
+*** Your Grade: ***            *** 27/25 ***
+
+
+
+### Instructor Comments ###############
+
+
+Great Job!
+
+
+--- Style tips ---
+
+Style looks good. Keep it up.
+
+
+
+
+
+
+====== Trying instructor's tests... ======
+
+
+
+-- Compiling Lab5.hs...
+Loaded package environment from /Users/jinjin/.ghc/x86_64-darwin-8.6.5/environments/default
+[1 of 2] Compiling RandState        ( RandState.hs, RandState.o )
+[2 of 2] Compiling Main             ( Lab5.hs, Lab5.o )
+Linking Lab5 ...
+
+-- Compiling Lab5.hs...success!
+
+
+
+
+-- Compiling Approxpi.hs...
+Loaded package environment from /Users/jinjin/.ghc/x86_64-darwin-8.6.5/environments/default
+[1 of 2] Compiling RandState        ( RandState.hs, RandState.o )
+[2 of 2] Compiling Main             ( Approxpi.hs, Approxpi.o )
+Linking Approxpi ...
+
+-- Compiling Approxpi.hs...success!
+
+
+$ ./Approxpi 10000
+3.142
+
+
+
+$ ./Lab5 rollTwoDice 10000
+6
+6
+12
+4
+9
+7
+7
+7
+4
+5
+
+.
+.
+.
+6
+8
+9
+7
+8
+8
+7
+10
+6
+9
+
+-- 
+-- 10000 rolls.
+-- 
+-- Frequencies:
+-- 2	285
+-- 3	557
+-- 4	834
+-- 5	1115
+-- 6	1418
+-- 7	1659
+-- 8	1308
+-- 9	1114
+-- 10	833
+-- 11	592
+-- 12	285
+-- Chi-square probability of coming from expected distribution: 0.6143576781921907
+-- 
+-- Testing independence: distribution of rolls following a 2, distribution following a 3, etc...
+-- Worst chi-square probability: 0.04132315674372811
+-- 
+
+
+
+
+
+
+$ ./Lab5 shuffle 10000
+[1D,9D,4C,3S,7S,2C,4S,QH,7H,10D,1C,1H,8D,8H,JC,7C,KC,JH,2S,JS,8S,2D,KH,3D,2H,9C,KD,6S,9H,JD,4D,5S,10C,10S,6H,QD,6C,4H,1S,9S,5D,6D,KS,5C,8C,QC,3H,7D,3C,5H,10H,QS]
+[QH,4S,KS,QC,6S,10C,5H,7S,JC,4D,6C,7H,1D,10S,6D,QS,1S,10H,5S,9C,4C,8D,8S,KD,3D,5C,7D,8C,KH,5D,1H,3S,JS,10D,8H,2H,2S,7C,9D,2C,3C,6H,KC,JD,3H,9S,9H,QD,2D,1C,4H,JH]
+[3C,3D,7S,5S,6D,KH,4H,1H,10H,5D,4S,5C,10S,KD,8C,6C,6H,1C,QH,9C,1S,QC,QD,3S,5H,2S,3H,6S,KS,JH,2D,7C,4C,8H,10D,JS,9D,KC,1D,8D,2C,JD,9H,7D,8S,JC,10C,9S,7H,QS,2H,4D]
+[8C,3C,7S,5S,KD,2S,2D,4C,KS,1S,5D,JD,QC,7D,KH,6S,10C,8D,7C,10D,2H,QS,10H,3S,QH,8S,9S,9D,JS,1C,3H,3D,6H,8H,1D,1H,5H,6D,JC,4S,6C,2C,QD,4D,7H,10S,JH,5C,4H,9H,KC,9C]
+[7H,1D,3C,6H,1H,JS,1C,JH,9C,8C,4S,QC,10D,5D,5H,2H,JC,9H,7C,5S,1S,3D,4C,QH,7D,KH,8H,2C,8D,9D,10C,JD,KD,KC,3S,4H,10S,2D,6C,6S,9S,QS,8S,KS,6D,5C,4D,3H,10H,QD,2S,7S]
+[4D,9S,5S,KS,8H,2D,10H,JC,8S,9D,3D,5H,JS,QC,QD,2C,1H,5C,9H,8D,KH,10C,9C,QS,1S,1D,1C,2S,JD,4C,3C,10D,4S,QH,5D,6D,7C,6C,3H,7H,6H,10S,4H,8C,7S,2H,6S,KD,KC,7D,3S,JH]
+[QH,5C,9D,9H,QS,9S,7C,1H,10S,8D,3D,1D,10C,10D,7S,9C,8H,3H,6H,5D,KD,1C,2C,6S,2D,7H,KS,3C,6C,JD,8S,KC,4H,7D,JC,4C,4S,2S,6D,KH,5H,3S,JH,1S,QC,4D,5S,10H,JS,2H,8C,QD]
+[2H,2C,4C,2D,QS,4S,5S,7C,6H,QD,1C,6S,4H,KD,1S,6C,QC,6D,JD,4D,QH,8C,3D,KC,JS,JH,10S,10C,8H,7D,9D,2S,5H,3S,3C,9S,KH,8D,7H,3H,1H,KS,10D,9C,5C,1D,7S,10H,5D,JC,9H,8S]
+[1D,10H,6C,JH,8S,7C,7S,4H,KC,KD,10S,KS,2D,3C,QD,JS,2C,5D,9S,3D,KH,4C,9C,1H,JC,3S,6S,2S,1C,10C,7H,3H,7D,8H,5C,QS,QC,QH,6H,1S,4S,6D,8D,2H,5S,JD,10D,5H,9H,8C,9D,4D]
+[JC,10H,4C,JH,7S,4D,1D,3H,9H,6C,9D,1H,2C,8H,4H,3C,JS,5C,2S,6D,KS,2H,9S,7C,QH,10D,KC,4S,8S,KH,10C,7D,QD,2D,JD,3S,QC,1C,6H,5D,7H,8D,1S,9C,3D,6S,10S,5H,8C,QS,KD,5S]
+
+.
+.
+.
+[8H,5H,7S,3H,JS,KH,3D,JH,8C,1H,4S,2D,4C,4D,7H,7D,7C,2S,JC,QS,9H,9S,5S,3C,1C,9C,QC,KC,KS,10H,1D,6H,2H,JD,KD,QD,6C,2C,6S,9D,4H,8D,10C,3S,6D,10S,5D,8S,10D,5C,QH,1S]
+[5C,5S,10D,KC,3S,7H,6D,6C,10H,7D,2C,QD,4C,2S,2H,10S,6H,JD,9C,JC,8C,JH,KH,QC,8D,7C,4S,KS,3H,5H,1D,1H,QH,QS,7S,9D,8S,9S,8H,5D,1S,1C,JS,9H,3C,4D,2D,KD,10C,3D,6S,4H]
+[1H,JS,8H,JC,6H,7H,2D,2S,QC,5H,KH,JH,5C,9C,9S,2C,5S,6S,8S,7S,9H,3S,4C,KD,QD,1S,4S,QS,1C,4D,QH,7C,8D,10C,2H,1D,10D,KS,10S,JD,8C,3D,9D,6C,3H,6D,7D,4H,KC,3C,10H,5D]
+[4C,7D,2H,9S,2C,3H,QD,9C,7C,10D,10H,1S,1D,2S,5H,10C,1C,3C,5S,8D,JS,6H,KC,2D,6C,KH,JH,4H,JC,6D,8C,QS,1H,5D,4S,9D,JD,5C,QH,8H,3S,6S,9H,KS,3D,10S,QC,8S,KD,4D,7S,7H]
+[3H,9C,QC,QS,4C,JD,JH,7S,1D,KD,1H,7D,1S,6H,4S,6S,9S,10C,2H,KS,7C,3C,KH,8D,QD,JC,4D,10D,9H,4H,7H,2C,8C,5H,6D,3S,1C,5C,9D,10S,10H,5D,8S,QH,6C,JS,2S,3D,8H,5S,2D,KC]
+[QH,7D,6C,9S,10S,2D,QD,KC,7C,8C,3C,JD,4S,6S,5C,9D,KD,QC,10D,3S,KH,8H,5H,10H,1D,6D,3D,JS,JC,2H,2C,8D,7H,JH,1H,1C,5S,8S,QS,4D,9H,3H,KS,4C,1S,7S,4H,9C,10C,6H,2S,5D]
+[6S,10C,QS,1D,3D,8S,5H,8C,7S,QC,QD,QH,KC,9C,10D,1S,3S,9S,5C,10S,7D,9D,5D,JD,2H,KS,4D,6H,5S,6D,1H,4H,JH,3H,8D,4S,2C,7C,KD,3C,7H,2D,6C,8H,JC,KH,JS,9H,1C,4C,2S,10H]
+[6C,QH,10C,4D,9H,3S,7C,KC,6H,7D,4H,10H,JC,QS,4C,KH,10D,1H,5S,4S,2C,6S,KD,JH,9D,1S,2D,5C,8S,3H,7S,JD,2H,1D,QC,6D,KS,1C,8D,3D,8H,5D,2S,9C,JS,QD,5H,3C,8C,7H,9S,10S]
+[7S,QC,7C,9H,3D,7H,8D,8C,QH,5S,10D,JS,QD,9C,9S,1D,1C,10S,1H,5C,2H,3S,1S,KS,JH,8S,2D,QS,6H,10C,4C,KD,3H,4D,6S,JC,7D,JD,3C,4H,KC,6D,5H,KH,4S,2C,2S,9D,10H,8H,6C,5D]
+[KC,8D,7H,QH,8S,1D,KS,3D,4S,JC,1S,5D,2H,JS,QD,5H,6H,KD,2C,1C,4D,8H,5S,6D,JH,QS,7S,KH,9D,4C,10S,10C,6S,3S,4H,10D,QC,JD,2S,9S,6C,7D,2D,9H,5C,1H,8C,7C,9C,3C,3H,10H]
+
+-- 
+-- 10000 shuffles.
+-- 
+-- For each position in deck, testing distribution of card probability...
+-- Worst chi-square probability: 0.02405202302289522
+-- 
+
+
+
+
+-- ------------- Summary ------------------------
+-- 
+-- Lab5 compiles:                     Yes.
+-- 
+-- Correct number of rolls:           Yes.
+-- Roughly right number of rolls:     Yes.
+-- Rolls one-per-line:                Yes.
+-- Rolls random:                      Yes.
+-- 
+-- Correct number of shuffles:        Yes.
+-- Roughly right number of shuffles:  Yes.
+-- Shuffles one-per-line:             Yes.
+-- Shuffles random:                   Yes.
+-- Mean incorrect cards per deck:     0.0
+-- 
+-- Extra credit runs:                 Yes.
+-- Extra credit pi estimated:         Yes.
+-- 
+
