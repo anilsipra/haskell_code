@@ -1,0 +1,133 @@
+*** CS 161 Lab 6 Grade Report, Brief Comments, and Test Results ***************
+
+
+Graded by j2zhao@uchicago.edu
+
+This commit was graded (git tag: f24100c2d3000371458c2e28acaf89792f7d4145):
+
+commit f24100c2d3000371458c2e28acaf89792f7d4145
+Author: Nathan Mull <nmull@uchicago.edu>
+Date:   Mon Dec 2 15:08:39 2019 -0600
+
+    Starter code for Lab 7
+
+View this code at: https://mit.cs.uchicago.edu/cmsc16100-aut-19/rachit/tree/f24100c2d3000371458c2e28acaf89792f7d4145/lab06
+
+
+
+
+`ghc Main.hs` succeeds:                     10 / 10%
+Code cleanliness:                            9 / 10%
+Test cases parsed:                          49 / 40%
+Test cases evaluated correctly:             49 / 40%
+
+Total:                             117.00%
+*** Your Grade: ***            *** 29/25 ***
+
+
+
+### Instructor Comments ###############
+
+
+Great job!
+
+
+--- Style tips ---
+
+Use more descriptive variable names. Short names like bi, e, f, n1, n2, op, e1, e2, b, a, y, ch, p1, and s1 do not convey enough information.
+
+It's cleaner to leave whitespace around = and $
+Instead of "=(", write "= ("
+
+
+
+
+
+
+====== Trying instructor's tests... ======
+
+
+
+-- Compiling Main.hs...
+Loaded package environment from /Users/jinjin/.ghc/x86_64-darwin-8.6.5/environments/default
+[1 of 4] Compiling Lab6             ( Lab6.hs, Lab6.o )
+[2 of 4] Compiling Eval             ( Eval.hs, Eval.o )
+[3 of 4] Compiling Unparse          ( Unparse.hs, Unparse.o )
+[4 of 4] Compiling Main             ( Main.hs, Main.o )
+Linking Main ...
+
+-- Compiling Main.hs...success!
+
+
+
+
+CORRECT:            Expected 1      got 1      for "1"
+CORRECT:            Expected -2     got -2     for "-2"
+CORRECT:            Expected 3      got 3      for "3"
+CORRECT:            Expected 4      got 4      for " 4"
+CORRECT:            Expected 25     got 25     for " 5^2"
+CORRECT:            Expected -6     got -6     for " - 6"
+CORRECT:            Expected 7      got 7      for "(7)"
+CORRECT:            Expected 8      got 8      for " ( 8 )"
+CORRECT:            Expected 10     got 10     for "9 + 1"
+CORRECT:            Expected 9      got 9      for "10 + -1"
+CORRECT:            Expected -10    got -10    for "-11 + 1"
+CORRECT:            Expected -13    got -13    for "-12 + -1"
+CORRECT:            Expected 14     got 14     for "((13+1) )"
+CORRECT:            Expected 17     got 17     for "14 + 1 + 2"
+CORRECT:            Expected 14     got 14     for "15 + 1 - 2"
+CORRECT:            Expected 17     got 17     for "16 - 1 + 2"
+CORRECT:            Expected 14     got 14     for "(17 - 1 - 2)"
+CORRECT:            Expected 20     got 20     for "18 + 1 * 2"
+CORRECT:            Expected 45     got 45     for "  19/2*5"
+CORRECT:            Expected 2      got 2      for "20/(2*5)"
+CORRECT:            Expected -2     got -2     for "20/(-2*5)"
+CORRECT:            Expected -2     got -2     for "20/(2*-5)"
+CORRECT:            Expected 203    got 203    for "3 + 10 ^ 2 * 2"
+CORRECT:            Expected -7     got -7     for "-3^2 + 2"
+CORRECT:            Expected -8     got -8     for "(-2)^3"
+CORRECT:            Expected 512    got 512    for "2^3^2"
+CORRECT:            Expected 8      got 8      for "5--3"
+CORRECT:            Expected 25     got 25     for " 100 / 2 / 2"
+CORRECT:            Expected -38    got -38    for " 5 * - 10 + 2 - 1 + 4 * 3 / 2 * 3 - 4 - 5 + 2"
+CORRECT:            Expected 44     got 44     for "(1 + (2 + ((4 + 2) * 6))) - (-2 + -3)"
+CORRECT:            Expected 44     got 44     for "  ( ( 1  + ( 2 + ( ( 4 + 2 ) * 6 ) ) ) - ( -2 + -3 ) )"
+CORRECT:            Expected 0      got 0      for "let x = 0 in x*10"
+CORRECT:            Expected 20     got 20     for "let two = 2 in (two*10)"
+CORRECT:            Expected 33     got 33     for "  let   x   =   3   +   5   in   (x*x + 2)/2"
+CORRECT:            Expected 9      got 9      for "let var = (1+2) in var*var"
+CORRECT:            Expected 13     got 13     for "let (x1, x2) = (-4, 5) in -x1-x1+x2"
+CORRECT:            Expected 9      got 9      for "let (a,b,c) = (3,4,6-2) in a*a + b*b - c*c"
+CORRECT:            Expected 0      got 0      for "let (a,b,hypot) = (3,4,5) in a^2 + b^2 - hypot^2"
+CORRECT:            Expected 1024   got 1024   for "let validVarName = 2^5 in validVarName * (validVarName)"
+CORRECT:            Expected 7      got 7      for "let  ( r2d2 , c3po )  =  ( ( 2^2 ) , ( 3 + (0) ) )  in   r2d2  + c3po"
+CORRECT:            Expected 22     got 22     for "12 + let x = 10 in x"
+CORRECT:            Expected 10     got 10     for "let x = 3 in let y = x + x in 4 + y"
+CORRECT:            Expected 20     got 20     for "let x = (let y = 5 in y+y) in 2 * x"
+CORRECT:            Expected 84     got 84     for "let (x1, x2) = (2 + let y = 5 in y+y, let (z1, z2) = (3, 4) in z1 + z2) in x1 * x2"
+CORRECT:            Expected -3     got -3     for "1 - let x = -1 in let y = -2 in let z = -3 in x - y - z"
+CORRECT:            Expected 0      got 0      for "if 1 > 0 then 0 else 1"
+CORRECT:            Expected 1      got 1      for "if 1 == 0 then 0 else 1"
+CORRECT:            Expected 0      got 0      for "if not (1 == 0) then 0 else 1"
+*** NOT PARSED ***: Expected 15     got Incomplete parse. Unparsed: "(t, f) = (1>=0, 1<=0) in if t then (if f then 5 else 15) else 7" for "let (t, f) = (1>=0, 1<=0) in if t then (if f then 5 else 15) else 7"
+CORRECT:            Expected 8      got 8      for "let cond = if 5 /= 5*2 then 8 else 9 in cond"
+*** NOT PARSED ***: Expected 5      got No parse. for "(\\x -> x) 5"
+*** NOT PARSED ***: Expected 36     got No parse. for "(\\x -> x 6) (\\y -> y*y)"
+*** NOT PARSED ***: Expected 49     got Incomplete parse. Unparsed: "f = (\\x -> x*x) in f 7" for "let f = (\\x -> x*x) in f 7"
+*** NOT PARSED ***: Expected -2     got Incomplete parse. Unparsed: "diff = (\\x -> (\\y -> x-y)) in diff 8 10" for "let diff = (\\x -> (\\y -> x-y)) in diff 8 10"
+*** NOT PARSED ***: Expected 4      got Incomplete parse. Unparsed: "(pred, succ) = ((\\n -> n-1), (\\n -> n+1)) in pred (pred (succ 5))" for "let (pred, succ) = ((\\n -> n-1), (\\n -> n+1)) in pred (pred (succ 5))"
+*** NOT PARSED ***: Expected 0      got Incomplete parse. Unparsed: "(sq,a,b,hypot) = ((\\num -> num*num),3,4,5) in (sq a) + (sq b) - (sq hypot)" for "let (sq,a,b,hypot) = ((\\num -> num*num),3,4,5) in (sq a) + (sq b) - (sq hypot)"
+*** NOT PARSED ***: Expected 16     got No parse. for "(\\shadow -> (\\shadow -> shadow*shadow)) 0 4"
+*** NOT PARSED ***: Expected 120    got Incomplete parse. Unparsed: "factorial = (\\n -> (\\fact -> if n == 0 then 1 else n * (fact (n-1) fact))) in factorial 5 factorial" for "let factorial = (\\n -> (\\fact -> if n == 0 then 1 else n * (fact (n-1) fact))) in factorial 5 factorial"
+*** NOT PARSED ***: Expected 2      got Incomplete parse. Unparsed: "abs = (\\n -> if n < 0 then 0-n else n) in let absDist = (\\x -> (\\y -> abs (x-y))) in absDist 8 10" for "let abs = (\\n -> if n < 0 then 0-n else n) in let absDist = (\\x -> (\\y -> abs (x-y))) in absDist 8 10"
+*** NOT PARSED ***: Expected 24     got No parse. for "(\\f -> (\\x -> f (\\y -> x x y)) (\\x -> f (\\y -> x x y))) (\\fact -> (\\n -> if n == 0 then 1 else n * (fact (n-1)))) 4"
+
+
+
+
+-- ------------- Summary ------------------------
+-- 
+-- Tests parsed:               49/40
+-- Tests evaluated correctly:  49/40
+-- 
+
