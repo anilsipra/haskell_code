@@ -1,0 +1,178 @@
+*** CS 161 Lab 7 Grade Report, Brief Comments, and Test Results ***************
+
+
+Graded by j2zhao@uchicago.edu
+
+This commit was graded (git tag: f55eea35581ff7797ae1616dfd73a1fa48ac1c3b):
+
+commit f55eea35581ff7797ae1616dfd73a1fa48ac1c3b
+Author: Rachit <rachit@uchicago.edu>
+Date:   Wed Dec 4 18:17:47 2019 -0600
+
+    a
+
+View this code at: https://mit.cs.uchicago.edu/cmsc16100-aut-19/rachit/tree/f55eea35581ff7797ae1616dfd73a1fa48ac1c3b/lab07
+
+
+
+
+`ghc Lab7.hs` succeeds:                     10 / 10%
+Code cleanliness:                           10 / 10%
+Implements the undefined functions:         30 / 30%
+Serves web pages:                           25 / 25%
+Correct logging output:                     15 / 25%
+
+Total:                             90.00%
+*** Your Grade: ***            *** 14/15 ***
+
+
+
+### Instructor Comments ###############
+
+
+
+--- Style tips ---
+
+Style looks good. Keep it up. You didn't append the logs in the >>= definition.
+
+
+
+
+
+
+====== Trying instructor's tests... ======
+
+
+
+-- Compiling Lab7.hs...
+Loaded package environment from /Users/jinjin/.ghc/x86_64-darwin-8.6.5/environments/default
+[1 of 1] Compiling Main             ( Lab7.hs, Lab7.o )
+Linking Lab7 ...
+
+-- Compiling Lab7.hs...success!
+
+
+
+
+-- Starting server: $ ./Lab7
+-- Opening TCP connection to localhost on port 2222
+-- Sending "GET / HTTP/1.1\r\n\r\n"
+-- Response:
+HTTP/1.1 200 OK
+Content-Type: text/html; charset=UTF-8
+Content-Length: 1055
+Server: Lab 7 Silly Haskell Server 1.0
+Connection: close
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>You Have Arrived.</title>
+  <style>
+  footer { font-size: 3px; }
+  </style>
+</head>
+<body>
+  <h1>Super Great Web Page Served By Your Very Own Webserver!</h1>
+  <p>
+    You might<br>
+    write an actual<br>
+    Haiku here.
+  </p>
+  <p>
+    <pre>
+      OR        /\   /^^  /^\ | |      /\   |^\  ^^|^^
+      DRAW     /__\  \-\ |    | |     /__\  |-<    |
+      SOME    /    \ __/  \_/ | |    /    \ |  \   |
+    </pre>
+  </p>
+  <h3>Things to see:</h3>
+  <ul>
+    <li><a href="">if you don't click this link you will never know where it goes!!</a> it's okay you don't have to click it</li>
+    <li><a href="ascii_art/quality_controller.html">an orphan that made his way</a></li>
+    <li><a href="ascii_art/self_portrait.html">a lab TA's self portrait</a></li>
+    <li><a href="http://poignant.guide/">wrong language, but this is the greatest programming book ever written</a>*</li>
+  </ul>
+  <footer>
+    *(don't tell the professors but almost all your grading scripts were written in Ruby)
+  </footer>
+</body>
+</html>
+
+
+-- Log lines:
+Waiting for connections on port 2222...
+Connection accepted from 127.0.0.1:65535
+[127.0.0.1:65535] Connection closed.
+
+
+-- HTTP HTML Response?	Yes.
+-- Log includes "Requested /"?	NO!
+-- Log includes "200 OK"?	NO!
+-- Log includes "Connection closed."?	Yes.
+-- Log includes /^\[.*\]/?	Yes.
+
+
+-- Starting server: $ ./Lab7
+-- Opening TCP connection to localhost on port 2222
+-- Sending "GET /asdfasdf.html HTTP/1.1\r\n\r\n"
+-- Response:
+HTTP/1.1 404 Not Found
+Content-Type: text/html; charset=UTF-8
+Content-Length: 106
+Server: Lab 7 Silly Haskell Server 1.0
+Connection: close
+
+<!DOCTYPE html><html><head><title>Not Found</title></head><body><h1>404!</h1>File not found!</body></html>
+
+-- Log lines:
+Waiting for connections on port 2222...
+Connection accepted from 127.0.0.1:49152
+[127.0.0.1:49152] Connection closed.
+
+
+-- HTTP HTML Response?	Yes.
+-- Log includes "Requested /asdfasdf.html"?	NO!
+-- Log includes "404 Not Found"?	NO!
+-- Log includes "Connection closed."?	Yes.
+-- Log includes /^\[.*\]/?	Yes.
+
+
+-- Starting server: $ ./Lab7
+-- Opening TCP connection to localhost on port 2222
+-- Sending "asdf\r\n\r\n"
+-- Response:
+HTTP/1.1 400 Bad Request
+Content-Type: text/html; charset=UTF-8
+Content-Length: 179
+Server: Lab 7 Silly Haskell Server 1.0
+Connection: close
+
+<!DOCTYPE html><html><head><title>Bad Request</title></head><body><h1>Bad request.</h1>It could be my fault. When I grow up I want to be a full-featured HTTP server.</body></html>
+
+-- Log lines:
+Waiting for connections on port 2222...
+Connection accepted from 127.0.0.1:49153
+[127.0.0.1:49153] Connection closed.
+
+
+-- HTTP HTML Response?	Yes.
+-- Log includes "400 Bad Request"?	NO!
+-- Log includes "Connection closed."?	Yes.
+-- Log includes /^\[.*\]/?	Yes.
+
+
+-- Starting server: $ ./Lab7
+-- Opening TCP connection to localhost on port 2222
+-- Sending "asdf"
+
+-- Log lines:
+Waiting for connections on port 2222...
+Connection accepted from 127.0.0.1:49154
+[127.0.0.1:49154] Connection broken.
+
+
+-- Log includes "Connection broken."?	Yes.
+-- Log includes /^\[.*\]/?	Yes.
+
+
