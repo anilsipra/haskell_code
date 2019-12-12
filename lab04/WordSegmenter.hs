@@ -1,4 +1,4 @@
-module WordSegmenter where 
+module Main where 
 
 import System.IO
 import Data.Map.Strict
@@ -35,7 +35,7 @@ main = do
     let list = lines contents
     let list2 = zip list (repeat True)
     let dict = fromList list2
-    input <- getContents
+    input <- getLine
     let output = (seg (length input) input dict)
     case output of
         Just x -> putStrLn x
